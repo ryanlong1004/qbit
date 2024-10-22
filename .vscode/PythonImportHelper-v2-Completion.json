@@ -1,0 +1,87 @@
+[
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "qbittorrentapi",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "qbittorrentapi",
+        "description": "qbittorrentapi",
+        "detail": "qbittorrentapi",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "qbittorrentapi.exceptions",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "qbittorrentapi.exceptions",
+        "description": "qbittorrentapi.exceptions",
+        "detail": "qbittorrentapi.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "ApiConnection",
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "isExtraImport": true,
+        "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "ApiConnection",
+        "kind": 6,
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "peekOfCode": "class ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):\n        \"\"\"\n        Initializes the connection to the qBittorrent API using the provided connection information.\n        Args:",
+        "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "MILLISECONDS_IN_SECOND",
+        "kind": 5,
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "peekOfCode": "MILLISECONDS_IN_SECOND = 1000\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):\n        \"\"\"\n        Initializes the connection to the qBittorrent API using the provided connection information.",
+        "detail": "api_connection",
+        "documentation": {}
+    }
+]
