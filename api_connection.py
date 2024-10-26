@@ -1,8 +1,14 @@
 from typing import List
 import qbittorrentapi
 from datetime import datetime, timedelta
+import time
+import loguru
 
 MILLISECONDS_IN_SECOND = 1000
+DEFAULT_SEARCH_PLUGINS = ["enabled"]
+DEFAULT_SEARCH_TOKENS = "*1080p*"
+
+logger = loguru.logger
 
 
 class ApiConnection:
@@ -22,7 +28,8 @@ class ApiConnection:
         """
         self.client = qbittorrentapi.Client(**conn_info)
 
-    def get_build_info(self) -> dict:
+    @property
+    def build_info(self) -> dict:
         """
         Retrieves version and build information for qBittorrent and its web API.
 
@@ -36,7 +43,8 @@ class ApiConnection:
         result.update({k: str(v) for k, v in self.client.app.build_info.items()})
         return result
 
-    def get_all_torrents(self) -> List[qbittorrentapi.TorrentDictionary]:
+    @property
+    def torrents(self) -> List[qbittorrentapi.TorrentDictionary]:
         """
         Retrieves a list of all torrents, including their hash, name, and current state.
 
@@ -46,7 +54,8 @@ class ApiConnection:
         """
         return list(torrent for torrent in self.client.torrents_info())
 
-    def get_rss_rules(self) -> dict:
+    @property
+    def rss_rules(self) -> dict:
         """
         Retrieves all configured RSS rules.
 
@@ -55,13 +64,22 @@ class ApiConnection:
         """
         return self.client.rss_rules()
 
+    @property
+    def plugins(self) -> qbittorrentapi.SearchPluginsList:
+        return self.client.search_plugins()
+
     def stop_all_torrents(self):
         """
         Stops all currently running torrents.
         """
         self.client.torrents.stop.all()
 
-    def search(self, pattern: str) -> qbittorrentapi.SearchResultsDictionary:
+    def search(
+        self,
+        pattern: str,
+        plugins: List[str] = DEFAULT_SEARCH_PLUGINS,
+        category: str = "all",
+    ) -> qbittorrentapi.SearchResultsDictionary:
         """
         Searches for torrents based on a provided pattern using the YTS plugin and category filter.
 
@@ -72,11 +90,16 @@ class ApiConnection:
             qbittorrentapi.SearchResultsDictionary: Search results from qBittorrent's API.
         """
         search_id = self.client.search_start(
-            pattern=f"{pattern}*1080p*x264*", plugins=["yts_mx"], category="all"
+            pattern=f"{pattern}{DEFAULT_SEARCH_TOKENS}",
+            plugins=plugins,
+            category=category,
         )
         # Blocks until search has finished
         while search_id.status() == "Running":
-            pass  # Optionally, handle timeouts or display progress here
+            logger.debug(f"{search_id.status()}")
+            time.sleep(1)
+
+        logger.debug(f"{search_id.status()}")
         return search_id.results().results
 
     def torrents_add(self, urls: List[str]):
@@ -87,14 +110,28 @@ class ApiConnection:
             urls (List[str]): A list of URLs for the torrents to be added.
         """
         for url in urls:
+            logger.info(f"URL is {url}")
             self.client.torrents_add(
                 urls=url,
                 save_path="/home/blitzcrank/downloads/qbittorrent/yify",
                 content_layout="Original",
             )
-        self.client.torrents_reannounce()
+        self.client.torrents_reannounce("all")
 
     def purge(self, days):
+        logger.debug(f"days: {days}")
         cutoff_timestamp = int((datetime.now() - timedelta(days=days)).timestamp())
-        print(cutoff_timestamp)
-        return [t for t in self.get_all_torrents() if t["completed"] < cutoff_timestamp]
+
+        to_delete = list(
+            [
+                torrent
+                for torrent in self.torrents
+                if torrent["completion_on"] < cutoff_timestamp  # type: ignore
+            ]
+        )
+
+        # self.client.torrents_delete(delete_files=True, torrent_hashes=list(to_delete))
+        self.client.torrents_delete(
+            delete_files=True, torrent_hashes=[torrent.hash for torrent in to_delete]
+        )
+        return to_delete

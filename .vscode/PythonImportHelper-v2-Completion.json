@@ -8,19 +8,19 @@
         "documentation": {}
     },
     {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
         "label": "qbittorrentapi",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "qbittorrentapi",
         "description": "qbittorrentapi",
+        "detail": "qbittorrentapi",
+        "documentation": {}
+    },
+    {
+        "label": "SearchResultsDictionary",
+        "importPath": "qbittorrentapi",
+        "description": "qbittorrentapi",
+        "isExtraImport": true,
         "detail": "qbittorrentapi",
         "documentation": {}
     },
@@ -41,21 +41,56 @@
         "documentation": {}
     },
     {
-        "label": "json",
+        "label": "time",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
         "documentation": {}
     },
     {
-        "label": "qbittorrentapi.exceptions",
+        "label": "loguru",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "qbittorrentapi.exceptions",
-        "description": "qbittorrentapi.exceptions",
-        "detail": "qbittorrentapi.exceptions",
+        "importPath": "loguru",
+        "description": "loguru",
+        "detail": "loguru",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "typer",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "typer",
+        "description": "typer",
+        "detail": "typer",
         "documentation": {}
     },
     {
@@ -80,8 +115,125 @@
         "kind": 5,
         "importPath": "api_connection",
         "description": "api_connection",
-        "peekOfCode": "MILLISECONDS_IN_SECOND = 1000\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):\n        \"\"\"\n        Initializes the connection to the qBittorrent API using the provided connection information.",
+        "peekOfCode": "MILLISECONDS_IN_SECOND = 1000\nDEFAULT_SEARCH_PLUGINS = [\"enabled\"]\nDEFAULT_SEARCH_TOKENS = \"*1080p*\"\nlogger = loguru.logger\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"",
         "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_SEARCH_PLUGINS",
+        "kind": 5,
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "peekOfCode": "DEFAULT_SEARCH_PLUGINS = [\"enabled\"]\nDEFAULT_SEARCH_TOKENS = \"*1080p*\"\nlogger = loguru.logger\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):",
+        "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_SEARCH_TOKENS",
+        "kind": 5,
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "peekOfCode": "DEFAULT_SEARCH_TOKENS = \"*1080p*\"\nlogger = loguru.logger\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):\n        \"\"\"",
+        "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "api_connection",
+        "description": "api_connection",
+        "peekOfCode": "logger = loguru.logger\nclass ApiConnection:\n    \"\"\"\n    A class to handle API connection and operations with qBittorrent.\n    Attributes:\n        client (qbittorrentapi.Client): The client to interface with qBittorrent's API.\n    \"\"\"\n    def __init__(self, conn_info: dict):\n        \"\"\"\n        Initializes the connection to the qBittorrent API using the provided connection information.",
+        "detail": "api_connection",
+        "documentation": {}
+    },
+    {
+        "label": "get_client",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def get_client() -> ApiConnection:\n    \"\"\"\n    Instantiates and returns an ApiConnection client with predefined\n    connection details.\n    Returns:\n        ApiConnection: An initialized client instance for API interactions.\n    \"\"\"\n    conn_info = {\n        \"host\": os.getenv(\"HOST\"),\n        \"port\": os.getenv(\"PORT\"),",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "search",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def search(term: str) -> SearchResultsDictionary:\n    \"\"\"\n    Searches for the given term and prints the results in CSV format.\n    Args:\n        term (str): The term to search for.\n    Returns:\n        SearchResultsDictionary: The search results.\n    \"\"\"\n    logger.debug(f\"Searching for term: {term}\")\n    search_term = term.replace(\" \", \"*\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "grab",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def grab(term: str):\n    results = search(term)\n    if len(results):\n        url = results[0][\"fileUrl\"]  # type: ignore\n        assert isinstance(url, str)\n        add_torrent(url)\n@app.command()\ndef plugins_list():\n    \"\"\"\n    Retrieves and displays the list of available plugins from the client.",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "plugins_list",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def plugins_list():\n    \"\"\"\n    Retrieves and displays the list of available plugins from the client.\n    \"\"\"\n    try:\n        plugins = client.plugins\n        if plugins:\n            pretty(plugins)\n        else:\n            logger.info(\"No plugins available.\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "purge",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def purge(days: int) -> None:\n    \"\"\"\n    Purges items older than the specified number of days.\n    Args:\n        days (int): Number of days to use as threshold for purging.\n    \"\"\"\n    try:\n        purged_items = client.purge(days)\n        for item in purged_items:\n            logger.info(f\"Purged '{item.name}'\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "add_torrent",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def add_torrent(url: str):\n    \"\"\"\n    Adds a torrent from the specified URL to the client.\n    Args:\n        url (str): The URL of the torrent to add.\n    \"\"\"\n    try:\n        client.torrents_add([url])\n        logger.info(f\"Torrent added successfully: {url}\")\n    except Exception as e:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "pretty",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def pretty(value):\n    \"\"\"\n    Formats and logs data in a CSV format.\n    Args:\n        value (dict or list): Data to format and display as CSV.\n    \"\"\"\n    try:\n        df = pd.DataFrame(value)\n        logger.info(f\"Results:\\n{df.to_csv(index=False)}\\n\")\n    except Exception as e:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "logger = loguru.logger\nload_dotenv()\napp = typer.Typer()\ndef get_client() -> ApiConnection:\n    \"\"\"\n    Instantiates and returns an ApiConnection client with predefined\n    connection details.\n    Returns:\n        ApiConnection: An initialized client instance for API interactions.\n    \"\"\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = typer.Typer()\ndef get_client() -> ApiConnection:\n    \"\"\"\n    Instantiates and returns an ApiConnection client with predefined\n    connection details.\n    Returns:\n        ApiConnection: An initialized client instance for API interactions.\n    \"\"\"\n    conn_info = {\n        \"host\": os.getenv(\"HOST\"),",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "client = get_client()\n@app.command()\ndef search(term: str) -> SearchResultsDictionary:\n    \"\"\"\n    Searches for the given term and prints the results in CSV format.\n    Args:\n        term (str): The term to search for.\n    Returns:\n        SearchResultsDictionary: The search results.\n    \"\"\"",
+        "detail": "main",
         "documentation": {}
     }
 ]
