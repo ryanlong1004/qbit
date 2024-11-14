@@ -160,7 +160,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def search(term: str) -> SearchResultsDictionary:\n    \"\"\"\n    Searches for the given term and prints the results in CSV format.\n    Args:\n        term (str): The term to search for.\n    Returns:\n        SearchResultsDictionary: The search results.\n    \"\"\"\n    logger.debug(f\"Searching for term: {term}\")\n    search_term = term.replace(\" \", \"*\")",
+        "peekOfCode": "def search(term: str) -> SearchResultsDictionary:\n    \"\"\"\n    Searches for the given term and prints the results in CSV format.\n    Args:\n        term (str): The term to search for.\n    Returns:\n        SearchResultsDictionary: The search results.\n    \"\"\"\n    logger.debug(f\"Searching for term: {term}\")\n    # search_term = term.replace(\" \", \"*\")",
         "detail": "main",
         "documentation": {}
     },
