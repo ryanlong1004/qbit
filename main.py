@@ -46,10 +46,9 @@ def search(term: str) -> SearchResultsDictionary:
         SearchResultsDictionary: The search results.
     """
     logger.debug(f"Searching for term: {term}")
-    search_term = term.replace(" ", "*")
 
     try:
-        result = client.search(search_term)
+        result = client.search(term)
         pretty(result)
         return result
     except Exception as e:

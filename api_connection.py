@@ -89,14 +89,17 @@ class ApiConnection:
         Returns:
             qbittorrentapi.SearchResultsDictionary: Search results from qBittorrent's API.
         """
+        pattern = f"{pattern}"
+        print(pattern)
         search_id = self.client.search_start(
-            pattern=f"{pattern}{DEFAULT_SEARCH_TOKENS}",
+            pattern=pattern,
             plugins=plugins,
             category=category,
         )
         # Blocks until search has finished
-        while search_id.status() == "Running":
-            logger.debug(f"{search_id.status()}")
+        print(search_id.status()[0], search_id.status()[0] == "Running")
+        while search_id.status()[0] == "Running":
+            logger.debug(f"--> {search_id.status()}")
             time.sleep(1)
 
         logger.debug(f"{search_id.status()}")
