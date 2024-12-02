@@ -122,19 +122,36 @@ class ApiConnection:
         self.client.torrents_reannounce("all")
 
     def purge(self, days):
-        logger.debug(f"days: {days}")
+        """
+        Purges torrents that were completed more than a specified number of days ago.
+
+        Args:
+            days (int): The age threshold in days for purging torrents. Torrents completed
+                        earlier than this threshold will be deleted.
+
+        Returns:
+            list: A list of torrents that were deleted.
+        """
+        # Log the number of days provided as the threshold
+        logger.debug(f"Purging torrents older than {days} days.")
+
+        # Calculate the cutoff timestamp for the purge based on the current time and days
         cutoff_timestamp = int((datetime.now() - timedelta(days=days)).timestamp())
 
-        to_delete = list(
-            [
-                torrent
-                for torrent in self.torrents
-                if torrent["completion_on"] < cutoff_timestamp  # type: ignore
-            ]
-        )
+        # Identify torrents to delete:
+        # - Torrents whose 'completion_on' timestamp is earlier than the cutoff timestamp.
+        # - Ensure 'completion_on' is greater than zero to avoid incomplete or invalid entries.
+        to_delete = [
+            torrent
+            for torrent in self.torrents
+            if torrent["completion_on"] < cutoff_timestamp  # type: ignore
+            and int(torrent["completion_on"]) > 0  # type: ignore
+        ]
 
-        # self.client.torrents_delete(delete_files=True, torrent_hashes=list(to_delete))
+        # Delete the identified torrents, including their associated files
         self.client.torrents_delete(
             delete_files=True, torrent_hashes=[torrent.hash for torrent in to_delete]
         )
+
+        # Return the list of torrents that were deleted
         return to_delete
