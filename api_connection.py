@@ -40,7 +40,9 @@ class ApiConnection:
             "qBittorrent Version": self.client.app.version,
             "Web API Version": self.client.app.web_api_version,
         }
-        result.update({k: str(v) for k, v in self.client.app.build_info.items()})
+        result.update(
+            {k: str(v) for k, v in self.client.app.build_info.items()}
+        )
         return result
 
     @property
@@ -136,7 +138,9 @@ class ApiConnection:
         logger.debug(f"Purging torrents older than {days} days.")
 
         # Calculate the cutoff timestamp for the purge based on the current time and days
-        cutoff_timestamp = int((datetime.now() - timedelta(days=days)).timestamp())
+        cutoff_timestamp = int(
+            (datetime.now() - timedelta(days=days)).timestamp()
+        )
 
         # Identify torrents to delete:
         # - Torrents whose 'completion_on' timestamp is earlier than the cutoff timestamp.
@@ -150,7 +154,8 @@ class ApiConnection:
 
         # Delete the identified torrents, including their associated files
         self.client.torrents_delete(
-            delete_files=True, torrent_hashes=[torrent.hash for torrent in to_delete]
+            delete_files=True,
+            torrent_hashes=[torrent.hash for torrent in to_delete],
         )
 
         # Return the list of torrents that were deleted
