@@ -5,7 +5,7 @@ import time
 import loguru
 
 MILLISECONDS_IN_SECOND = 1000
-DEFAULT_SEARCH_PLUGINS = ["enabled"]
+DEFAULT_SEARCH_PLUGINS = ["yts_mx"]
 DEFAULT_SEARCH_TOKENS = "*1080p*"
 
 logger = loguru.logger
@@ -40,9 +40,7 @@ class ApiConnection:
             "qBittorrent Version": self.client.app.version,
             "Web API Version": self.client.app.web_api_version,
         }
-        result.update(
-            {k: str(v) for k, v in self.client.app.build_info.items()}
-        )
+        result.update({k: str(v) for k, v in self.client.app.build_info.items()})
         return result
 
     @property
@@ -68,6 +66,12 @@ class ApiConnection:
 
     @property
     def plugins(self) -> qbittorrentapi.SearchPluginsList:
+        """
+        Retrieve the list of search plugins.
+
+        Returns:
+            qbittorrentapi.SearchPluginsList: A list of search plugins available in qBittorrent.
+        """
         return self.client.search_plugins()
 
     def stop_all_torrents(self):
@@ -138,9 +142,7 @@ class ApiConnection:
         logger.debug(f"Purging torrents older than {days} days.")
 
         # Calculate the cutoff timestamp for the purge based on the current time and days
-        cutoff_timestamp = int(
-            (datetime.now() - timedelta(days=days)).timestamp()
-        )
+        cutoff_timestamp = int((datetime.now() - timedelta(days=days)).timestamp())
 
         # Identify torrents to delete:
         # - Torrents whose 'completion_on' timestamp is earlier than the cutoff timestamp.
@@ -151,6 +153,11 @@ class ApiConnection:
             if torrent["completion_on"] < cutoff_timestamp  # type: ignore
             and int(torrent["completion_on"]) > 0  # type: ignore
         ]
+
+        # Stop the identified torrents before deleting them
+        self.client.torrents_stop(
+            torrent_hashes=[torrent.hash for torrent in to_delete]
+        )
 
         # Delete the identified torrents, including their associated files
         self.client.torrents_delete(
