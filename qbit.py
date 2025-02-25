@@ -5,7 +5,7 @@ import loguru
 from qbittorrentapi import SearchResultsDictionary
 import typer
 
-from api_connection import ApiConnection
+from src.api_connection import ApiConnection
 from src.crypt import decrypt
 
 # Configure the logger
