@@ -38,7 +38,7 @@ class Qbit:
             "host": os.getenv("HOST"),
             "port": os.getenv("PORT"),
             "username": decrypt(key, USERNAME),
-            "password": os.getenv(key, PASSWORD),
+            "password": decrypt(key, PASSWORD),
         }
         return ApiConnection(conn_info)
 
