@@ -5,11 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "fastapi>=0.115.8",
     "loguru>=0.7.3",
     "pandas>=2.2.3",
     "python-dotenv>=1.0.1",
     "qbittorrent-api>=2024.12.71",
     "typer>=0.15.1",
+    "uvicorn>=0.34.0",
 ]
 
 [dependency-groups]

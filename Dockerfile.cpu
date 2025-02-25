@@ -30,4 +30,4 @@ USER appuser
 RUN uv sync
 
 # Set the entrypoint
-ENTRYPOINT ["sh", "-c", "python -m src.main $(echo \"$@\" | sed 's/--model[s]* [^ ]* //g')", "--"]
+ENTRYPOINT ["uv", "run", "uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "10333"]
