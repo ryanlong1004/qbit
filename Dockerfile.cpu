@@ -30,4 +30,4 @@ USER appuser
 RUN uv sync
 
 # Set the entrypoint
-ENTRYPOINT [python, -m, src.api]
+ENTRYPOINT ["python", "-m", "src.api"]
