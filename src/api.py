@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 from src.qbit import Qbit
 import loguru
 import uvicorn
+from fastapi import File, UploadFile
 
 # Configure the logger
 logger = loguru.logger
@@ -56,6 +57,29 @@ def add_torrent(url: str, _: Request):
     except Exception as e:
         logger.error(f"Error adding torrent: {e}")
         raise HTTPException(status_code=500, detail="Failed to add torrent") from e
+
+
+@app.post("/add_torrent_url")
+def add_torrent_url(url: str, _: Request):
+    try:
+        qbit.client.torrents_add_url([url])
+        return {"message": "Torrent added successfully from URL"}
+    except Exception as e:
+        logger.error(f"Error adding torrent from URL: {e}")
+        raise HTTPException(status_code=500, detail="Failed to add torrent from URL") from e
+
+
+@app.post("/add_torrent_file")
+async def add_torrent_file(file: UploadFile = File(...), is_series: bool = False):
+    try:
+        file_location = f"/tmp/{file.filename}"
+        with open(file_location, "wb") as f:
+            f.write(await file.read())
+        qbit.client.torrents_add_files([file_location], is_series)
+        return {"message": "Torrent added successfully from file"}
+    except Exception as e:
+        logger.error(f"Error adding torrent from file: {e}")
+        raise HTTPException(status_code=500, detail="Failed to add torrent from file") from e
 
 
 if __name__ == "__main__":

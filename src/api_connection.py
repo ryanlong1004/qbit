@@ -113,7 +113,7 @@ class ApiConnection:
         logger.debug(f"{search_id.status()}")
         return search_id.results().results
 
-    def torrents_add(self, urls: List[str]):
+    def torrents_add_url(self, urls: List[str]):
         """
         Adds torrents from a list of URLs and reannounces to trackers.
 
@@ -125,6 +125,30 @@ class ApiConnection:
             self.client.torrents_add(
                 urls=url,
                 save_path="/home/blitzcrank/downloads/qbittorrent/yify",
+                content_layout="Original",
+            )
+        self.client.torrents_reannounce("all")
+
+    def torrents_add_files(self, _paths: List[str], is_series: bool = False):
+        """
+        Adds torrents from a list of file paths and reannounces to trackers.
+
+            _paths (List[str]): A list of file paths for the torrents to be added.
+
+        Logs:
+            Logs each file path being added.
+
+        Calls:
+            self.client.torrents_add: Adds the torrent file to the client.
+            self.client.torrents_reannounce: Reannounces torrents to all trackers.
+        """
+
+        save_path = "/home/blitzcrank/media/TV Shows" if is_series else "/home/blitzcrank/downloads/media/Movies"
+        for _path in _paths:
+            logger.info(f"path is {_path}")
+            self.client.torrents_add(
+                torrent_files=[_path],
+                save_path=save_path,
                 content_layout="Original",
             )
         self.client.torrents_reannounce("all")
