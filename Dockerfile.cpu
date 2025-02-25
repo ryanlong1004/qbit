@@ -30,4 +30,4 @@ USER appuser
 RUN uv sync
 
 # Set the entrypoint
-ENTRYPOINT ["uv", "run", "uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "10333"]
+ENTRYPOINT [python, -m, src.api]
