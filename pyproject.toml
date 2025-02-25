@@ -1,0 +1,19 @@
+[project]
+name = "qbittorrent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "loguru>=0.7.3",
+    "pandas>=2.2.3",
+    "python-dotenv>=1.0.1",
+    "qbittorrent-api>=2024.12.71",
+    "typer>=0.15.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "ruff>=0.9.3",
+]
