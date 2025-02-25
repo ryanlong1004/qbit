@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="/app/.venv/bin:$PATH"
 
 ENV HOST="169.150.223.229"
-ENV PORT="28391"
+ENV PORT=28391
 
 # Create app directory and non-root user
 WORKDIR /app
