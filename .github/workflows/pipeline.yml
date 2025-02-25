@@ -14,7 +14,6 @@ on:
     types: [published]
   push:
     tags: ["v*"]
-    branches: ["main"]
   pull_request:
     branches: ["main"]
 
@@ -87,7 +86,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME}}
           flavor: |
-            latest=false
+            latest=true
             prefix=cpu
             suffix=
           tags: |
