@@ -32,10 +32,5 @@ def purge(days: int):
     qbit.purge(days)
 
 
-@app.command()
-def add_torrent(url: str):
-    qbit.add_torrent(url)
-
-
 if __name__ == "__main__":
     app()

@@ -49,16 +49,6 @@ def purge(days: int, _: Request):
         raise HTTPException(status_code=500, detail="Purge operation failed") from e
 
 
-@app.post("/add_torrent")
-def add_torrent(url: str, _: Request):
-    try:
-        qbit.add_torrent(url)
-        return {"message": "Torrent added successfully"}
-    except Exception as e:
-        logger.error(f"Error adding torrent: {e}")
-        raise HTTPException(status_code=500, detail="Failed to add torrent") from e
-
-
 @app.post("/add_torrent_url")
 def add_torrent_url(url: str, _: Request):
     try:
