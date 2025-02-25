@@ -32,21 +32,18 @@ class Qbit:
         Returns:
             ApiConnection: An initialized client instance for interacting with the API.
         """
+        conn_info = {
+            "host": os.getenv("HOST"),
+            "port": os.getenv("PORT"),
+            "username": os.getenv("USERNAME"),
+            "password": os.getenv("PASSWORD"),
+        }
+
         key = os.getenv("API_KEY")
-        if key is None:
-            conn_info = {
-                "host": os.getenv("HOST"),
-                "port": os.getenv("PORT"),
-                "username": os.getenv("USERNAME"),
-                "password": os.getenv("PASSWORD"),
-            }
-        else:
-            conn_info = {
-                "host": os.getenv("HOST"),
-                "port": os.getenv("PORT"),
-                "username": decrypt(key, USERNAME),
-                "password": decrypt(key, PASSWORD),
-            }
+        if key:
+            conn_info["username"] = decrypt(key, USERNAME)
+            conn_info["password"] = decrypt(key, PASSWORD)
+
         return ApiConnection(conn_info)
 
     def search(self, term: str) -> SearchResultsDictionary:
