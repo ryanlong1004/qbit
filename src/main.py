@@ -32,5 +32,15 @@ def purge(days: int):
     qbit.purge(days)
 
 
+@app.command()
+def add_torrent_url(url: str):
+    qbit.client.torrents_add_url([url])
+
+
+@app.command()
+def add_torrent_file(file_path: str, is_series: bool = False):
+    qbit.client.torrents_add_files([file_path], is_series)
+
+
 if __name__ == "__main__":
     app()
