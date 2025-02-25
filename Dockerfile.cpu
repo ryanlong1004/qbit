@@ -33,4 +33,4 @@ RUN uv sync
 EXPOSE 10333
 
 # Set the entrypoint
-ENTRYPOINT ["python", "-m", "src.api"]
+ENTRYPOINT ["uvicorn" "src.api:app" "--host" "0.0.0.0" "--port" "10333"]
