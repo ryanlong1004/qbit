@@ -60,13 +60,9 @@ class Qbit:
             SearchResultsDictionary: The dictionary containing search results.
         """
         logger.debug(f"Initiating search for term: {term}")
-        try:
-            result = self.client.search(term)
-            pretty(result)  # Format and display results
-            return result
-        except Exception as e:
-            logger.error(f"Error during search operation: {e}")
-            raise typer.Exit(code=1)  # Exit with an error code
+        result = self.client.search(term)
+        pretty(result)  # Format and display results
+        return result
 
     def grab(self, term: str):
         """
