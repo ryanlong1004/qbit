@@ -1,0 +1,40 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.13-slim
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+ENV PATH="/app/.venv/bin:$PATH"
+
+ENV HOST="169.150.223.229"
+ENV PORT=28391
+
+# Create app directory and non-root user
+WORKDIR /app
+RUN useradd -m -u 1000 appuser
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libgomp1 \
+    git && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install uv==0.5.21
+
+# Copy source code and set permissions
+COPY . /app
+RUN chown -R appuser:appuser /app
+
+USER appuser
+
+# Install dependencies
+RUN uv sync
+
+# Expose port 10333
+EXPOSE 10333
+EXPOSE 28391
+
+# Set the entrypoint
+ENTRYPOINT ["uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "10333"]

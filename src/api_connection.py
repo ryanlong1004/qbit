@@ -83,7 +83,7 @@ class ApiConnection:
     def search(
         self,
         pattern: str,
-        plugins: List[str] = DEFAULT_SEARCH_PLUGINS,
+        plugins: List[str] = [],
         category: str = "all",
     ) -> qbittorrentapi.SearchResultsDictionary:
         """
@@ -95,6 +95,8 @@ class ApiConnection:
         Returns:
             qbittorrentapi.SearchResultsDictionary: Search results from qBittorrent's API.
         """
+        if not plugins:
+            plugins = DEFAULT_SEARCH_PLUGINS
         pattern = f"{pattern}"
         print(pattern)
         search_id = self.client.search_start(
@@ -155,9 +157,7 @@ class ApiConnection:
         ]
 
         # Stop the identified torrents before deleting them
-        self.client.torrents_stop(
-            torrent_hashes=[torrent.hash for torrent in to_delete]
-        )
+        self.client.torrents_stop(torrent_hashes=[torrent.hash for torrent in to_delete])
 
         # Delete the identified torrents, including their associated files
         self.client.torrents_delete(

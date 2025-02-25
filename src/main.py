@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import loguru
 import typer
-from qbit import Qbit
+from src.qbit import Qbit
 
 # Configure the logger
 logger = loguru.logger
