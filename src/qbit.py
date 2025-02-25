@@ -6,11 +6,15 @@ from qbittorrentapi import SearchResultsDictionary
 import typer
 
 from src.api_connection import ApiConnection
+from src.crypt import decrypt
 
 # Configure the logger
 logger = loguru.logger
 load_dotenv()  # Load environment variables from a .env file
 app = typer.Typer()
+
+USERNAME = "gAAAAABnvjdspyfpNGO7nfxqQiN8MOz7YCk8z9nIm2Mmjmj7mpNAp1OwJBPqK07PjzgFnD5Yq_Obbs7TDGWbJFkNYBwta3WrMA=="
+PASSWORD = "gAAAAABnvjYNs2R0gvmU8614OR5FkkcaWaED_4A0jqZS-oOzQN8xfpmkfqnYQTWsXdGxU5tmMqU_VpqzBVcS79S_fbHOMQLREw=="
 
 
 class Qbit:
@@ -28,11 +32,13 @@ class Qbit:
         Returns:
             ApiConnection: An initialized client instance for interacting with the API.
         """
+        key = os.getenv("API_KEY")
+        assert key is not None
         conn_info = {
             "host": os.getenv("HOST"),
             "port": os.getenv("PORT"),
-            "username": os.getenv("USERNAME"),
-            "password": os.getenv("PASSWORD"),
+            "username": decrypt(key, USERNAME),
+            "password": decrypt(key, PASSWORD),
         }
         return ApiConnection(conn_info)
 
